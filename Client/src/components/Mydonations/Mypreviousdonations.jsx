@@ -1,39 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Mydonations.css'
-import {useHistory} from "react-router-dom"
-import { useContext } from 'react';
-import { AuthContext } from '../AuthContext';
+import { useHistory } from "react-router-dom"
 
 const Mypreviousdonations = () => {
-  const history=useHistory();
+  const history = useHistory();
   const [donationHistory, setDonationHistory] = useState([]);
-  const {handleemailupdate, useremailid } = useContext(AuthContext);
+
 
   useEffect(() => {
-    // console.log("fetched")
-    fetchDonationHistory(useremailid);
-  },[]);
 
-  const fetchDonationHistory = async (userEmail) => {
-    try {
-      const response = await axios.get('https://clothedonationbackend.onrender.com/history', {
-        params: {
-          email:  useremailid ,
-        },
+    fetchDonationHistory();
+  }, []);
+
+  const fetchDonationHistory = async () => {
+    axios.get("http://localhost:3000/history", { withCredentials: true })
+      .then(res => {
+
+
+
+        setDonationHistory(res.data);
+
+
+      })
+      .catch(error => {
+        alert("Error!")
       });
-  
-      if (response.status === 200) {
-        // console.log(response.data);
-        setDonationHistory(response.data);
-      } else {
-        console.error('Failed to fetch donation history.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+
   };
-  
+
 
 
   return (
@@ -55,10 +50,10 @@ const Mypreviousdonations = () => {
           ))}
         </ul>
 
-       
+
       )}
-      <div style={{display:'flex' , alignItems:'center' , justifyContent:'center'}}>
-      <button style={{border:'2px solid black'}} className='custom__button'onClick={()=>{history.push('/')}}>Home</button>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button style={{ border: '2px solid black' }} className='custom__button' onClick={() => { history.push('/') }}>Home</button>
       </div>
     </div>
   );

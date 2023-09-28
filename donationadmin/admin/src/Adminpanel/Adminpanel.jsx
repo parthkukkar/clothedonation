@@ -12,7 +12,8 @@ const Adminpanel = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('https://clothedonationbackend.onrender.com/admin/getUserData');
+      const response = await axios.get('http://localhost:3000/admin/getUserData');
+      console.log(response);
       setUserData(response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -21,19 +22,19 @@ const Adminpanel = () => {
 
   const markAsPicked = async (userId) => {
     try {
-      
-      await axios.put('https://clothedonationbackend.onrender.com/admin/markAsPicked', {
+
+      await axios.put('http://localhost:3000/admin/markAsPicked', {
         userId: userId,
         status: 'Picked',
       });
-    
+
       fetchUserData();
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  
+
   const filteredUserData = userData.filter((user) => user.status === viewStatus);
 
   return (
@@ -50,7 +51,8 @@ const Adminpanel = () => {
             <th>Mobile Number</th>
             <th>Items for donation</th>
             <th>Pickup Date</th>
-            <th>Pickup Time</th>
+            <th>Pickup Start Time</th>
+            <th>Pickup End Time</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -63,9 +65,10 @@ const Adminpanel = () => {
               <td>{user.MobileNumber}</td>
               <td>{user.dataArray.join(', ')}</td>
               <td>{user.date}</td>
-              <td>{user.time}</td>
+              <td>{user.starttime}</td>
+              <td>{user.endtime}</td>
               <td>{user.status}</td>
-             {user.status==='pending' ?  <button id='readbtn' onClick={() => markAsPicked(user._id)}>Mark as picked</button>:""}
+              {user.status === 'pending' ? <button id='readbtn' onClick={() => markAsPicked(user._id)}>Mark as picked</button> : ""}
             </tr>
           ))}
         </tbody>

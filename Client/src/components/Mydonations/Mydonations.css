@@ -1,71 +1,67 @@
 /* Container for the donation history */
 .donation-history-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    height: 100vh;
-    width: 100vw;
-    background-color: oldlace;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100vh;
+  width: 100vw;
+  background-color: oldlace;
+}
+
+/* Title for the donation history */
+.donation-history-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* List of donations */
+.donation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each individual donation item */
+.donation-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+}
+
+.donation-data {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.donation-status {
+  font-size: 14px;
+  color: #666;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .donation-history-container {
+    max-width: 90%;
   }
-  
-  /* Title for the donation history */
-  .donation-history-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  /* List of donations */
-  .donation-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Each individual donation item */
+
   .donation-item {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
-  
+}
 
+@media (max-width: 480px) {
   .donation-data {
-    font-size: 16px;
-    font-weight: bold;
-  }
- 
-  .donation-status {
     font-size: 14px;
-    color: #666;
-    text-align: right;
   }
-  
 
-  @media (max-width: 768px) {
-    .donation-history-container {
-      max-width: 90%;
-    }
-  
-    .donation-item {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+  .donation-status {
+    font-size: 12px;
   }
-  
-  
-  @media (max-width: 480px) {
-    .donation-data {
-      font-size: 14px;
-    }
-  
-    .donation-status {
-      font-size: 12px;
-    }
-  }
-  
+}

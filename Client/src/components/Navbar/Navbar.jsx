@@ -1,20 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import images from "../../constants/images";
 import { useHistory } from "react-router-dom";
-import { AuthContext } from '../AuthContext';
-import { toast } from 'react-toastify';
+import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
-
 import "./Navbar.css";
 
 const Navbar = () => {
-  const history = useHistory();
-  const { isLoggedIn, handleLogout } = useContext(AuthContext);
+  const [cookieValue, setCookieValue] = useState(null);
 
-  const handleLogoutClick = () => {
-    handleLogout();
-    toast.success("Logged out successfully");
-    history.push('/');
+  useEffect(() => {
+    // Retrieve the cookie when the component is mounted
+    const myCookieValue = getCookie('id');
+    // console.log('My Cookie Value:', myCookieValue);
+
+    // Update the state with the cookie value
+    setCookieValue(myCookieValue);
+  }, []); // Empty dependency array ensures this effect runs once on mount
+
+  function getCookie(cookieName) {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === cookieName) {
+        return decodeURIComponent(value);
+      }
+    }
+    return null; // Return null if the cookie is not found
+  }
+
+
+  const history = useHistory();
+
+  const handleloggoutClick = () => {
+    axios.get("http://localhost:3000/logout", { withCredentials: true })
+      .then((response) => {
+
+        console.log('Response:', response);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    window.location.reload()
   };
 
   return (
@@ -33,19 +59,19 @@ const Navbar = () => {
         </li>
       </ul>
 
-      {!isLoggedIn ?
-        <div className="app__navbar-login">
+
+      {cookieValue ?
+        <button className=' navbarbuttons p__opensans' onClick={handleloggoutClick}>
+          Log Out
+        </button>
+        : <div className="app__navbar-login">
           <button className=' navbarbuttons p__opensans' onClick={() => { history.push('/login') }}>
             Log In/Sign Up
           </button>
-        </div>
-        :
-        <div className="app__navbar-login">
-          <button className="navbarbuttons p__opensans" onClick={handleLogoutClick}>
-            Log Out
-          </button>
-        </div>
-      }
+        </div>}
+
+
+
     </div>
   );
 }

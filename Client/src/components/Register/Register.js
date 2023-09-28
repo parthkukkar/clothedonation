@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import './Register.css';
+import React, { useState } from "react";
+import "./Register.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const history = useHistory();
@@ -17,31 +17,33 @@ const Register = () => {
     reEnterPassword: "",
   });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
       ...user,
-      [name]: value
+      [name]: value,
     });
   };
 
   const register = () => {
-    const { name, email, Mobile_number, Address, password, reEnterPassword } = user;
+    const { name, email, Mobile_number, Address, password, reEnterPassword } =
+      user;
 
     if (name && email && password && Mobile_number && Address) {
       if (Mobile_number.length === 10 && password === reEnterPassword) {
-        axios.post("https://clothedonationbackend.onrender.com/register", user)
-          .then(res => {
-           
+        axios
+          .post("http://localhost:3000/register", user, {
+            withCredentials: true,
+          })
+          .then((res) => {
             if (res.data.message === "Successfully Registered") {
               toast.success(res.data.message);
-              toast.info("Please login now");
-              history.push('/login');
-            }else{
+              history.push("/");
+            } else {
               toast.error(res.data.message);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             toast.error("Registration failed. Please try again.");
           });
       } else {
@@ -59,43 +61,103 @@ const Register = () => {
   return (
     <div className="registerbody">
       <div className="wrapper_register">
-        <div className="form-box_register register" >
+        <div className="form-box_register register">
           <h2>Register</h2>
           <div>
             <div className="input-box_register">
-              <input type="text" name="name" value={user.name} onChange={handleChange} placeholder='Name' />
+              <input
+                type="text"
+                name="name"
+                value={user.name}
+                onChange={handleChange}
+                placeholder="Name"
+              />
             </div>
 
             <div className="input-box_register">
-              <span className="icon_register"><ion-icon name="mail"></ion-icon></span>
-              <input type="text" name="email" value={user.email} onChange={handleChange} placeholder='Email' />
+              <span className="icon_register">
+                <ion-icon name="mail"></ion-icon>
+              </span>
+              <input
+                type="text"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+                placeholder="Email"
+              />
             </div>
 
             <div className="input-box_register">
-              <input type="text" name="Mobile_number" value={user.Mobile_number} onChange={handleChange} placeholder='Mobile Number' />
+              <input
+                type="text"
+                name="Mobile_number"
+                value={user.Mobile_number}
+                onChange={handleChange}
+                placeholder="Mobile Number"
+              />
             </div>
 
             <div className="input-box_register">
-              <input type="text" name="Address" value={user.Address} onChange={handleChange} placeholder='Address' />
+              <input
+                type="text"
+                name="Address"
+                value={user.Address}
+                onChange={handleChange}
+                placeholder="Address"
+              />
             </div>
 
             <div className="input-box_register">
-              <span className="icon_register"><ion-icon name="lock-closed"></ion-icon></span>
-              <input type="password" name='password' value={user.password} onChange={handleChange} placeholder='Password' />
+              <span className="icon_register">
+                <ion-icon name="lock-closed"></ion-icon>
+              </span>
+              <input
+                type="password"
+                name="password"
+                value={user.password}
+                onChange={handleChange}
+                placeholder="Password"
+              />
             </div>
 
             <div className="input-box_register">
-              <span className="icon_register"><ion-icon name="lock-closed"></ion-icon></span>
-              <input type="password" name="reEnterPassword" value={user.reEnterPassword} onChange={handleChange} placeholder='Re Enter Password' />
+              <span className="icon_register">
+                <ion-icon name="lock-closed"></ion-icon>
+              </span>
+              <input
+                type="password"
+                name="reEnterPassword"
+                value={user.reEnterPassword}
+                onChange={handleChange}
+                placeholder="Re Enter Password"
+              />
             </div>
 
-            <button className="btn_register" onClick={register} >Register</button>
+            <button className="btn_register" onClick={register}>
+              Register
+            </button>
             <div className="register-login">
-              <p>Already have an account? <button className="loginbtnn" onClick={() => { history.push('/login') }}>Login Here</button></p>
+              <p>
+                Already have an account?{" "}
+                <button
+                  className="loginbtnn"
+                  onClick={() => {
+                    history.push("/login");
+                  }}
+                >
+                  Login Here
+                </button>
+              </p>
             </div>
 
             <div className="btnhr">
-              <button onClick={() => { history.push('/') }}>Home</button>
+              <button
+                onClick={() => {
+                  history.push("/");
+                }}
+              >
+                Home
+              </button>
             </div>
           </div>
         </div>
@@ -105,4 +167,3 @@ const Register = () => {
 };
 
 export default Register;
-

@@ -1,53 +1,42 @@
 .datetime-container {
-    
-    margin: 0 auto;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.8);
-   
-    padding-top:52px;
-  }
-  
-  .datetime-heading {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  .datetime-container p{
-    font-weight: bold;
-  }
-  
-  .selected-time {
-    text-align: center;
-    font-size: 18px;
-    margin-top: 10px;
-    color: #555;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  padding-top: 52px;
+}
+
+.datetime-heading {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+.datetime-container p {
+  font-weight: bold;
+}
+
+.selected-time {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 10px;
+  color: #555;
+}
+
+@media (max-width: 1003px) {
+  .datetime-container {
+    max-width: 100%;
+    padding: 10px;
+    margin-top: 12px;
   }
 
-  @media (max-width: 1003px) {
-    .datetime-container {
-      max-width: 100%; 
-      padding: 10px; 
-      margin-top: 12px;
-      
-    }
-  
-    .datetime-heading {
-      font-size: 20px; 
-    }
-  
-    .selected-time {
-      font-size: 16px; 
-    }
+  .datetime-heading {
+    font-size: 20px;
   }
-  
-  
-  
-  
-  
-  
-  
-  
+
+  .selected-time {
+    font-size: 16px;
+  }
+}

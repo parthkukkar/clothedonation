@@ -1,11 +1,11 @@
 /* contact.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .containerofcontact {
@@ -15,18 +15,18 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  background: url('../../assets/cb2.jpg') center/cover no-repeat;
+  background: url("../../assets/cb2.jpg") center/cover no-repeat;
 }
 
 .containerofcontact::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.2);
-  
+
   z-index: -1;
 }
 
@@ -112,7 +112,6 @@
     text-align: center; /* Center the text content inside the p tags */
   }
 }
-.contactForm ul li{
-    margin: 35px 0px;
-
+.contactForm ul li {
+  margin: 35px 0px;
 }
