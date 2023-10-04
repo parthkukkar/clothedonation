@@ -25,7 +25,7 @@ const Login = () => {
     const { email, password } = user;
     if (email && password) {
       axios
-        .post("http://localhost:3000/login", user, { withCredentials: true })
+        .post("https://donationwb.onrender.com/login", user, { withCredentials: true })
         .then((res) => {
           if (res.data.message === "Login Successful!") {
             toast.success(res.data.message);

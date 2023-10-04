@@ -14,7 +14,7 @@ const Mypreviousdonations = () => {
   }, []);
 
   const fetchDonationHistory = async () => {
-    axios.get("http://localhost:3000/history", { withCredentials: true })
+    axios.get("https://donationwb.onrender.com/history", { withCredentials: true })
       .then(res => {
 
 

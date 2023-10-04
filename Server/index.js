@@ -7,25 +7,19 @@ import cookieParser from "cookie-parser";
 import { createTokens } from "./JWT.js";
 import { validateToken } from "./JWT.js";
 config();
-
 const DB =
   "mongodb+srv://parth:parth1234@cluster0.asqm1kv.mongodb.net/donationdb?retryWrites=true&w=majority";
-
 const port = process.env.PORT || 3000;
 const app = express();
-mongoose.set("strictQuery", true);
-
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express.urlencoded());
 const corsOptions = {
-  credentials: true,
   origin: [
     "https://clothingdonation.netlify.app",
     "https://clothingdonationadmin.netlify.app",
-    'http://localhost:3001'
-    
-  ], // React app's origin
+  ],
+
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -71,7 +65,6 @@ const dataSchema = new mongoose.Schema({
 const DataModel = mongoose.model("Data", dataSchema);
 
 app.post("/login", async (req, res) => {
-  console.log("reached at login");
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email: email });
@@ -79,12 +72,19 @@ app.post("/login", async (req, res) => {
       bcrypt.compare(password, user.password).then((match) => {
         if (match) {
           const accessToken = createTokens(user);
+          //cokie that will be stored in clients browser so that he remains logged in
 
-          res.send({
-            accesstoken: accessToken,
-            message: "Login Successful!",
-            id: user.id,
-          });
+          res.cookie("access-token", accessToken, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+          }); // 30 days in milliseconds
+
+          res.cookie("id", user.id, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            httpOnly: false,
+          }); // 30 days in milliseconds
+
+          res.send({ message: "Login Successful!" });
         } else {
           res.send({ message: "Password did not match! " });
         }
@@ -97,9 +97,18 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/logout", (req, res) => {
+  try {
+    res.clearCookie("id");
+    res.clearCookie("access-token");
+    res.status(200).send("logged out suuccess");
+  } catch (err) {
+    res.status(404).send("some error occured!");
+  }
+});
+
 //routes
 app.post("/register", (req, res) => {
-  console.log("reached at register");
   const { name, email, Mobile_number, Address, password } = req.body;
 
   User.findOne({ email: email }, (err, user) => {
@@ -122,17 +131,22 @@ app.post("/register", (req, res) => {
         });
 
         const accesstoken = createTokens(user);
+        res.cookie("access-token", accesstoken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+
+        res.cookie("id", user.id, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: false,
+        });
 
         // save in db
         user.save((err) => {
           if (err) {
             res.send(err);
           } else {
-            res.send({
-              accesstoken: accesstoken,
-              message: "Successfully Registered",
-              id: user.id,
-            });
+            res.send({ message: "Successfully Registered" });
           }
         });
       });
@@ -140,17 +154,11 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/donate", validateToken,async (req, res) => {
-  console.log("reached")
-  const { dataArray, date, sttime, endtime, status, id, accessToken } = req.query;
-  
- 
- 
- 
+app.post("/donate", validateToken, async (req, res) => {
+  let { dataArray, date, sttime, endtime, status } = req.body;
+  const id = req.cookies["id"];
 
   const user = await User.findOne({ _id: id });
-  // console.log(`id is ${id}`);
-  // console.log(`user is ${user}`)
 
   if (!user) {
     return res.status(404).json({ message: "User not found." });
@@ -210,17 +218,9 @@ function saveDataToMongoDB(
   });
 }
 
-
 app.get("/history", validateToken, async (req, res) => {
-  const accessToken = req.query.accesstoken;
-  const id=req.query.id;
-
-  // You can now use the accessToken in your server logic
-  // console.log('Access Token:', accessToken);
-  // console.log(`id ${id}`)
   try {
-    // const id = req.cookies["id"];
-      
+    const id = req.cookies["id"];
 
     const user = await User.findOne({ _id: id });
 

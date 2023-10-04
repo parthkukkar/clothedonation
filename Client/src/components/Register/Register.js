@@ -32,7 +32,7 @@ const Register = () => {
     if (name && email && password && Mobile_number && Address) {
       if (Mobile_number.length === 10 && password === reEnterPassword) {
         axios
-          .post("http://localhost:3000/register", user, {
+          .post("https://donationwb.onrender.com/register", user, {
             withCredentials: true,
           })
           .then((res) => {

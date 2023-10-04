@@ -32,7 +32,7 @@ const Navbar = () => {
   const history = useHistory();
 
   const handleloggoutClick = () => {
-    axios.get("http://localhost:3000/logout", { withCredentials: true })
+    axios.get("https://donationwb.onrender.com/logout", { withCredentials: true })
       .then((response) => {
 
         console.log('Response:', response);

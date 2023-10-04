@@ -11,12 +11,7 @@ const createTokens = (user) => {
 
 //middelware
 const validateToken = (req, res, next) => {
-  // const accessToken = req.cookies["accesstoken"];
-  const accessToken = req.query.accesstoken;
-
-  // You can now use the accessToken in your server logic
-  // console.log('Access Token:', accessToken);
-  
+  const accessToken = req.cookies["access-token"];
 
   if (!accessToken)
     return res.status(400).json({ error: "User not authenticated!" });

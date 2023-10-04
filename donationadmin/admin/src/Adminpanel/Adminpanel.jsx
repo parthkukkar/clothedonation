@@ -12,7 +12,7 @@ const Adminpanel = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/admin/getUserData');
+      const response = await axios.get('https://donationwb.onrender.com/admin/getUserData');
       console.log(response);
       setUserData(response.data);
     } catch (error) {
@@ -23,7 +23,7 @@ const Adminpanel = () => {
   const markAsPicked = async (userId) => {
     try {
 
-      await axios.put('http://localhost:3000/admin/markAsPicked', {
+      await axios.put('https://donationwb.onrender.com/admin/markAsPicked', {
         userId: userId,
         status: 'Picked',
       });
